@@ -12,7 +12,7 @@ const Sidebar: React.FC = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <aside className="w-[239px] bg-[#FFFFFF] h-screen text-sm p-4">
+    <aside className="w-[239px] bg-[#FFFFFF] h-screen text-sm p-4 fixed left-0 top-0 overflow-y-auto">
       <nav className="flex flex-col h-full justify-between">
         <div className="space-y-8">
           <h1 className="ml-1 mt-[20px] mb-12">
@@ -52,27 +52,6 @@ const Sidebar: React.FC = () => {
                 active={isActive(`/dashboard/map`)}
               />
             </div>
-          </div>
-
-          <div className="mt-6 space-y-3">
-            <NavLink
-              to="overview"
-              icon={overviewIcon}
-              label="Overview"
-              active={isActive(`/dashboard/overview`)}
-            />
-            <NavLink
-              to="overview"
-              icon={overviewIcon}
-              label="Overview"
-              active={isActive(`/dashboard/overview`)}
-            />
-            <NavLink
-              to="overview"
-              icon={overviewIcon}
-              label="Overview"
-              active={isActive(`/dashboard/overview`)}
-            />
           </div>
         </div>
 
