@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import overviewIcon from "../assets/images/overviewIcon.png";
 import homeIcon from "../assets/images/homeIcon.png";
 import mapIconIcon from "../assets/images/mapIcon.png";
@@ -7,73 +7,114 @@ import LogOutIcon from "../assets/images/logOutIcon.png";
 import { ROUTES } from "../constants/routes";
 
 const Sidebar: React.FC = () => {
+  const location = useLocation();
+
+  const isActive = (path: string) => location.pathname === path;
+
   return (
     <aside className="w-[239px] bg-[#FFFFFF] h-screen text-sm p-4">
       <nav className="flex flex-col h-full justify-between">
-        <div className="space-y-4">
-          <h1 className="h-[43px] ml-5 mt-[20px] mb-6">
-            <span className="font-bold">GH-HAZARD</span> <br />
-            <span className="text-[0.7rem]">Report</span>
+        <div className="space-y-8">
+          <h1 className="ml-1 mt-[20px] mb-12">
+            <span className="font-bold text-2xl">GH-Hazard</span> <br />
+            <span className="text-lg">Report</span>
           </h1>
 
-          <Link
-            to={`/${ROUTES.dashboard}`}
-            className="text-gray-700 flex items-center h-[35px] p-2 hover:bg-[#E8E8EA] active:bg-[#E8E8EA] focus:outline-none focus:ring focus:ring-[#E8E8EA] rounded-[4px] gap-[8px]"
-          >
-            <img src={homeIcon} alt="Home Icon" className="w-[16px] h-[16px]" />
-            Home
-          </Link>
-          <Link
-            to="overview"
-            className="text-gray-700 flex items-center h-[35px] p-2 hover:bg-[#E8E8EA] active:bg-[#E8E8EA] focus:outline-none focus:ring focus:ring-[#E8E8EA] rounded-[4px] gap-[8px]"
-          >
-            <img
-              src={overviewIcon}
-              alt="Overview Icon"
-              className="w-[16px] h-[16px]"
-            />
-            Overview
-          </Link>
+          <div className="mt-4">
+            <div className="space-y-3">
+              <NavLink
+                to={`/${ROUTES.dashboard}`}
+                icon={homeIcon}
+                label="Home"
+                active={isActive(`/${ROUTES.dashboard}`)}
+              />
+              <NavLink
+                to="overview"
+                icon={overviewIcon}
+                label="Overview"
+                active={isActive(`/dashboard/overview`)}
+              />
+            </div>
+          </div>
 
-          <Link
-            to="/dashboard/map"
-            className="text-gray-700 flex items-center h-[35px] p-2 hover:bg-[#E8E8EA] active:bg-[#E8E8EA] focus:outline-none focus:ring focus:ring-[#E8E8EA] rounded-[4px] gap-[8px]"
-          >
-            <img
-              src={mapIconIcon}
-              alt="Map Icon"
-              className="w-[16px] h-[16px]"
+          <div className="mt-6">
+            <div className="flex items-center px-3 mb-4">
+              <span className="text-sm font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap">
+                Others
+              </span>
+              <div className="ml-3 flex-1 h-px bg-gray-300"></div>
+            </div>
+            <div className="space-y-3">
+              <NavLink
+                to="/dashboard/map"
+                icon={mapIconIcon}
+                label="Map"
+                active={isActive(`/dashboard/map`)}
+              />
+            </div>
+          </div>
+
+          <div className="mt-6 space-y-3">
+            <NavLink
+              to="overview"
+              icon={overviewIcon}
+              label="Overview"
+              active={isActive(`/dashboard/overview`)}
             />
-            Map
-          </Link>
+            <NavLink
+              to="overview"
+              icon={overviewIcon}
+              label="Overview"
+              active={isActive(`/dashboard/overview`)}
+            />
+            <NavLink
+              to="overview"
+              icon={overviewIcon}
+              label="Overview"
+              active={isActive(`/dashboard/overview`)}
+            />
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <Link
+        <div className="space-y-3 mt-8">
+          <NavLink
             to="settings"
-            className="text-gray-700 flex items-center h-[35px] p-2 hover:bg-[#E8E8EA] active:bg-[#E8E8EA] focus:outline-none focus:ring focus:ring-[#E8E8EA] rounded-[4px] gap-[8px]"
-          >
-            <img
-              src={SettingsIcon}
-              alt="Settings Icon"
-              className="w-[16px] h-[16px]"
-            />
-            <span className="ml-1">Settings</span>
-          </Link>
-          <Link
+            icon={SettingsIcon}
+            label="Settings"
+            active={isActive(`/dashboard/settings`)}
+          />
+          <NavLink
             to="/login"
-            className="text-gray-700 flex items-center h-[35px] p-2 hover:bg-[#E8E8EA] active:bg-[#E8E8EA] focus:outline-none focus:ring focus:ring-[#E8E8EA] rounded-[4px] gap-[8px]"
-          >
-            <img
-              src={LogOutIcon}
-              alt="LogOut Icon"
-              className="w-[16px] h-[16px]"
-            />
-            <span className="ml-1">Logout</span>
-          </Link>
+            icon={LogOutIcon}
+            label="Logout"
+            active={false}
+          />
         </div>
       </nav>
     </aside>
+  );
+};
+
+type NavLinkProps = {
+  to: string;
+  icon: string;
+  label: string;
+  active: boolean;
+};
+
+const NavLink: React.FC<NavLinkProps> = ({ to, icon, label, active }) => {
+  return (
+    <Link
+      to={to}
+      className={`flex items-center h-[40px] p-3 rounded-[4px] gap-[10px] transition-colors text-base ${
+        active 
+          ? "bg-[#E8E8EA] text-gray-900 font-semibold" 
+          : "text-gray-700 hover:bg-[#E8E8EA] font-medium"
+      }`}
+    >
+      <img src={icon} alt={`${label} Icon`} className="w-[18px] h-[18px]" />
+      <span>{label}</span>
+    </Link>
   );
 };
 
